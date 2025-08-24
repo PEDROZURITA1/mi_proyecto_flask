@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Bienvenido {{ nombre }} - Mi Aplicación Flask{% endblock %}
+
+{% block content %}
+<div class="user-section">
+    <div class="welcome-message">
+        <h1>¡Bienvenido, {{ nombre }}! 👋</h1>
+        <p class="subtitle">Gracias por visitar nuestra aplicación Flask</p>
+    </div>
+    
+    <div class="user-info">
+        <div class="info-card">
+            <h3>Información de tu visita</h3>
+            <p><strong>Usuario:</strong> {{ nombre }}</p>
+            <p><strong>Página:</strong> Perfil personalizado</p>
+            <p><strong>Framework:</strong> Flask con Jinja2</p>
+        </div>
+        
+        <div class="navigation-suggestions">
+            <h3>¿Qué quieres hacer ahora?</h3>
+            <div class="nav-buttons">
+                <a href="{{ url_for('home') }}" class="btn-secondary">🏠 Volver al Inicio</a>
+                <a href="{{ url_for('about') }}" class="btn-secondary">ℹ️ Conocer más</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="personalized-content">
+        <h3>Contenido personalizado para {{ nombre }}</h3>
+        <p>Esta sección demuestra cómo las plantillas Jinja2 permiten crear contenido dinámico basado en los parámetros de la URL.</p>
+        
+        {% if nombre|length > 10 %}
+            <p class="fun-fact">¡Wow! Tienes un nombre bastante largo: <strong>{{ nombre|length }}</strong> caracteres.</p>
+        {% elif nombre|length < 4 %}
+            <p class="fun-fact">¡Qué nombre tan conciso! Solo <strong>{{ nombre|length }}</strong> caracteres.</p>
+        {% else %}
+            <p class="fun-fact">Tu nombre tiene <strong>{{ nombre|length }}</strong> caracteres. ¡Perfecto!</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
