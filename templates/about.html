@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Acerca de - Mi Aplicación Flask{% endblock %}
+
+{% block content %}
+<div class="about-section">
+    <h1>Acerca de Este Proyecto</h1>
+    
+    <div class="about-content">
+        <div class="about-text">
+            <h2>¿Qué es esta aplicación?</h2>
+            <p>Esta es una aplicación web desarrollada con <strong>Flask</strong>, un framework web ligero y poderoso para Python. El proyecto utiliza plantillas <strong>Jinja2</strong> para crear una experiencia de usuario dinámica y responsive.</p>
+            
+            <h2>Tecnologías Utilizadas</h2>
+            <div class="tech-stack">
+                <span class="tech-badge">Flask 3.0.0</span>
+                <span class="tech-badge">Jinja2 3.1.2</span>
+                <span class="tech-badge">HTML5</span>
+                <span class="tech-badge">CSS3</span>
+                <span class="tech-badge">Python</span>
+            </div>
+            
+            <h2>Características</h2>
+            <ul class="features-list">
+                <li>✅ Plantillas dinámicas con herencia</li>
+                <li>✅ Diseño responsive</li>
+                <li>✅ Rutas parametrizadas</li>
+                <li>✅ Navegación intuitiva</li>
+                <li>✅ Estructura modular</li>
+            </ul>
+            
+            <h2>Desarrollado por</h2>
+            <p>Este proyecto fue desarrollado como parte de un ejercicio de aprendizaje de Flask y desarrollo web con Python.</p>
+        </div>
+        
+        <div class="about-image">
+            <div class="placeholder-image">
+                <p>🐍</p>
+                <p>Flask + Python</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
