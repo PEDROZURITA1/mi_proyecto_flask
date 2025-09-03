@@ -1,0 +1,273 @@
+{% extends "base.html" %}
+
+{% block title %}Formulario - Mi Aplicación Flask{% endblock %}
+
+{% block content %}
+<div class="form-section">
+    <h1>Formulario de Registro</h1>
+    <p class="subtitle">Prueba la persistencia de datos en diferentes formatos</p>
+
+    <!-- Mensajes Flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="flash-message flash-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <form class="data-form" id="mainForm">
+        <div class="form-group">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+
+        <div class="form-group">
+            <label for="mensaje">Mensaje (opcional):</label>
+            <textarea id="mensaje" name="mensaje" rows="4" placeholder="Escribe un mensaje..."></textarea>
+        </div>
+
+        <div class="button-group">
+            <h3>Guardar en:</h3>
+            <button type="button" onclick="submitForm('/guardar_txt')" class="btn-storage txt">
+                 Archivo TXT
+            </button>
+            <button type="button" onclick="submitForm('/guardar_json')" class="btn-storage json">
+                 Archivo JSON
+            </button>
+            <button type="button" onclick="submitForm('/guardar_csv')" class="btn-storage csv">
+                 Archivo CSV
+            </button>
+            <button type="button" onclick="submitForm('/guardar_db')" class="btn-storage db">
+                 Base de Datos
+            </button>
+        </div>
+    </form>
+
+    <div class="reading-section">
+        <h2>Ver Datos Guardados</h2>
+        <div class="read-buttons">
+            <a href="{{ url_for('leer_txt') }}" class="btn-read txt">Ver datos TXT</a>
+            <a href="{{ url_for('leer_json') }}" class="btn-read json">Ver datos JSON</a>
+            <a href="{{ url_for('leer_csv') }}" class="btn-read csv">Ver datos CSV</a>
+            <a href="{{ url_for('leer_db') }}" class="btn-read db">Ver datos BD</a>
+        </div>
+    </div>
+
+    <div class="stats-section">
+        <a href="{{ url_for('estadisticas') }}" class="btn-primary"> Ver Estadísticas</a>
+        <a href="{{ url_for('api_datos_json') }}" class="btn-secondary" target="_blank"> API JSON</a>
+        <a href="{{ url_for('api_usuarios') }}" class="btn-secondary" target="_blank"> API Usuarios</a>
+    </div>
+</div>
+
+<script>
+function submitForm(action) {
+    const form = document.getElementById('mainForm');
+    form.action = action;
+    form.method = 'POST';
+    form.submit();
+}
+</script>
+
+<style>
+.form-section {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 3rem;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.form-section h1 {
+    text-align: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 2rem;
+}
+
+.flash-messages {
+    margin-bottom: 2rem;
+}
+
+.flash-message {
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+}
+
+.flash-success {
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    color: #16a34a;
+}
+
+.flash-error {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #dc2626;
+}
+
+.data-form {
+    margin-bottom: 3rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 2px solid rgba(102, 126, 234, 0.2);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.button-group {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.button-group h3 {
+    color: #667eea;
+    margin-bottom: 1rem;
+}
+
+.btn-storage {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    margin: 0.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.btn-storage.txt {
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    color: white;
+}
+
+.btn-storage.json {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+}
+
+.btn-storage.csv {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+}
+
+.btn-storage.db {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    color: white;
+}
+
+.btn-storage:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.reading-section {
+    border-top: 2px solid rgba(102, 126, 234, 0.1);
+    padding-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.reading-section h2 {
+    text-align: center;
+    color: #667eea;
+    margin-bottom: 1rem;
+}
+
+.read-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.btn-read {
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    color: white;
+    font-size: 0.9rem;
+}
+
+.btn-read.txt { background: #f97316; }
+.btn-read.json { background: #10b981; }
+.btn-read.csv { background: #3b82f6; }
+.btn-read.db { background: #8b5cf6; }
+
+.btn-read:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+.stats-section {
+    text-align: center;
+    border-top: 2px solid rgba(102, 126, 234, 0.1);
+    padding-top: 2rem;
+}
+
+@media (max-width: 768px) {
+    .form-section {
+        padding: 2rem 1rem;
+    }
+    
+    .read-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .btn-storage {
+        display: block;
+        margin: 0.5rem 0;
+        width: 100%;
+        max-width: 250px;
+    }
+}
+</style>
+{% endblock %}
