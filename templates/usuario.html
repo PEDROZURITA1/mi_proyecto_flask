@@ -1,42 +1,52 @@
 {% extends "base.html" %}
 
-{% block title %}Bienvenido {{ nombre }} - Mi Aplicación Flask{% endblock %}
-
 {% block content %}
-<div class="user-section">
-    <div class="welcome-message">
-        <h1>¡Bienvenido, {{ nombre }}! 👋</h1>
-        <p class="subtitle">Gracias por visitar nuestra aplicación Flask</p>
+<div class="hero-section">
+    <h1>¡Bienvenido a Mi Aplicación Flask!</h1>
+    <p class="hero-text">Una aplicación web moderna con persistencia de datos en múltiples formatos</p>
+    <div>
+        <a href="{{ url_for('mostrar_formulario') }}" class="btn-primary">🚀 Probar Formulario</a>
+        <a href="{{ url_for('estadisticas') }}" class="btn-secondary">📈 Ver Estadísticas</a>
+    </div>
+</div>
+
+<div class="feature-cards">
+    <div class="card">
+        <h3>📄 Archivos TXT</h3>
+        <p>Guarda datos de forma simple en archivos de texto plano. Perfecto para logs y datos básicos.</p>
     </div>
     
-    <div class="user-info">
-        <div class="info-card">
-            <h3>Información de tu visita</h3>
-            <p><strong>Usuario:</strong> {{ nombre }}</p>
-            <p><strong>Página:</strong> Perfil personalizado</p>
-            <p><strong>Framework:</strong> Flask con Jinja2</p>
-        </div>
-        
-        <div class="navigation-suggestions">
-            <h3>¿Qué quieres hacer ahora?</h3>
-            <div class="nav-buttons">
-                <a href="{{ url_for('home') }}" class="btn-secondary">🏠 Volver al Inicio</a>
-                <a href="{{ url_for('about') }}" class="btn-secondary">ℹ️ Conocer más</a>
-            </div>
-        </div>
+    <div class="card">
+        <h3>🔗 Archivos JSON</h3>
+        <p>Almacena datos estructurados en formato JSON. Ideal para APIs y intercambio de datos.</p>
     </div>
     
-    <div class="personalized-content">
-        <h3>Contenido personalizado para {{ nombre }}</h3>
-        <p>Esta sección demuestra cómo las plantillas Jinja2 permiten crear contenido dinámico basado en los parámetros de la URL.</p>
-        
-        {% if nombre|length > 10 %}
-            <p class="fun-fact">¡Wow! Tienes un nombre bastante largo: <strong>{{ nombre|length }}</strong> caracteres.</p>
-        {% elif nombre|length < 4 %}
-            <p class="fun-fact">¡Qué nombre tan conciso! Solo <strong>{{ nombre|length }}</strong> caracteres.</p>
-        {% else %}
-            <p class="fun-fact">Tu nombre tiene <strong>{{ nombre|length }}</strong> caracteres. ¡Perfecto!</p>
-        {% endif %}
+    <div class="card">
+        <h3>📊 Archivos CSV</h3>
+        <p>Maneja datos tabulares con CSV. Compatible con Excel y herramientas de análisis.</p>
     </div>
+    
+    <div class="card">
+        <h3>🗄️ Base de Datos SQLite</h3>
+        <p>Persistencia robusta con SQLite y SQLAlchemy. Consultas avanzadas y relaciones.</p>
+    </div>
+</div>
+
+<div class="cta-section">
+    <h2>Funcionalidades Implementadas</h2>
+    <ul style="text-align: left; max-width: 600px; margin: 0 auto;">
+        <li>✅ <strong>Persistencia con archivos TXT:</strong> Escritura y lectura de datos planos</li>
+        <li>✅ <strong>Persistencia con JSON:</strong> Manejo de datos estructurados</li>
+        <li>✅ <strong>Persistencia con CSV:</strong> Datos tabulares con encabezados</li>
+        <li>✅ <strong>Base de datos SQLite:</strong> ORM con SQLAlchemy</li>
+        <li>✅ <strong>APIs REST:</strong> Endpoints para consultar datos</li>
+        <li>✅ <strong>Interfaz responsive:</strong> Compatible con dispositivos móviles</li>
+        <li>✅ <strong>Estadísticas:</strong> Dashboard con resumen de datos</li>
+    </ul>
+    
+    <p style="margin-top: 2rem;">
+        Prueba todas las funcionalidades en la página del 
+        <a href="{{ url_for('mostrar_formulario') }}" style="color: #667eea; font-weight: bold;">formulario</a>
+    </p>
 </div>
 {% endblock %}
