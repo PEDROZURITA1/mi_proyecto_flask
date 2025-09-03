@@ -1,0 +1,287 @@
+{% extends "base.html" %}
+
+{% block title %}{{ titulo }} - Mi Aplicación Flask{% endblock %}
+
+{% block content %}
+<div class="result-section">
+    <h1>{{ titulo }}</h1>
+    
+    <div class="result-content">
+        {% if tipo == 'txt' %}
+            <div class="txt-content">
+                <h3> Contenido del archivo TXT:</h3>
+                <pre class="file-content">{{ contenido or "No hay datos guardados aún." }}</pre>
+            </div>
+        
+        {% elif tipo == 'json' and datos_json %}
+            <div class="json-content">
+                <h3> Datos en formato JSON:</h3>
+                <div class="data-grid">
+                    {% for registro in datos_json %}
+                        <div class="data-card json-card">
+                            <div class="card-header">
+                                <h4>{{ registro.nombre }}</h4>
+                                <span class="date">{{ registro.fecha }}</span>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Email:</strong> {{ registro.email }}</p>
+                                {% if registro.mensaje %}
+                                    <p><strong>Mensaje:</strong> {{ registro.mensaje }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        
+        {% elif tipo == 'csv' and datos_csv %}
+            <div class="csv-content">
+                <h3> Datos desde archivo CSV:</h3>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Mensaje</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for fila in datos_csv %}
+                                <tr>
+                                    <td>{{ fila.Fecha }}</td>
+                                    <td>{{ fila.Nombre }}</td>
+                                    <td>{{ fila.Email }}</td>
+                                    <td>{{ fila.Mensaje or '-' }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        
+        {% elif tipo == 'db' and usuarios_db %}
+            <div class="db-content">
+                <h3> Datos desde Base de Datos SQLite:</h3>
+                <div class="data-grid">
+                    {% for usuario in usuarios_db %}
+                        <div class="data-card db-card">
+                            <div class="card-header">
+                                <h4>{{ usuario.nombre }}</h4>
+                                <span class="date">{{ usuario.fecha_registro.strftime('%Y-%m-%d %H:%M') }}</span>
+                                <a href="{{ url_for('eliminar_usuario', user_id=usuario.id) }}" 
+                                   class="delete-btn" 
+                                   onclick="return confirm('¿Estás seguro de eliminar este usuario?')">
+                                    
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>ID:</strong> {{ usuario.id }}</p>
+                                <p><strong>Email:</strong> {{ usuario.email }}</p>
+                                {% if usuario.mensaje %}
+                                    <p><strong>Mensaje:</strong> {{ usuario.mensaje }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        
+        {% else %}
+            <div class="no-data">
+                <p>{{ contenido or "No hay datos guardados aún." }}</p>
+            </div>
+        {% endif %}
+    </div>
+    
+    <div class="navigation-section">
+        <a href="{{ url_for('mostrar_formulario') }}" class="btn-primary">🔙 Volver al Formulario</a>
+        <a href="{{ url_for('estadisticas') }}" class="btn-secondary">📈 Ver Estadísticas</a>
+    </div>
+</div>
+
+<style>
+.result-section {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 3rem;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.result-section h1 {
+    text-align: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 2rem;
+}
+
+.result-content h3 {
+    color: #667eea;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.file-content {
+    background: #f8f9fa;
+    border: 2px solid rgba(102, 126, 234, 0.2);
+    border-radius: 8px;
+    padding: 1.5rem;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.data-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.data-card {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.data-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.json-card {
+    border-left: 4px solid #10b981;
+}
+
+.db-card {
+    border-left: 4px solid #8b5cf6;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(102, 126, 234, 0.2);
+    position: relative;
+}
+
+.card-header h4 {
+    color: #333;
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.date {
+    font-size: 0.85rem;
+    color: #666;
+    font-weight: 500;
+}
+
+.delete-btn {
+    position: absolute;
+    top: -5px;
+    right: 0;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 0.8rem;
+}
+
+.delete-btn:hover {
+    background: rgba(239, 68, 68, 0.2);
+    transform: scale(1.1);
+}
+
+.card-body p {
+    margin-bottom: 0.5rem;
+    color: #555;
+}
+
+.table-container {
+    overflow-x: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.data-table th {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+}
+
+.data-table td {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+    color: #555;
+}
+
+.data-table tr:nth-child(even) {
+    background: rgba(102, 126, 234, 0.05);
+}
+
+.data-table tr:hover {
+    background: rgba(102, 126, 234, 0.1);
+}
+
+.no-data {
+    text-align: center;
+    padding: 3rem;
+    color: #666;
+    font-style: italic;
+}
+
+.navigation-section {
+    text-align: center;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 2px solid rgba(102, 126, 234, 0.1);
+}
+
+.navigation-section a {
+    margin: 0 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .result-section {
+        padding: 2rem 1rem;
+    }
+    
+    .data-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
