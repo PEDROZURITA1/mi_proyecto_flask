@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Usuarios</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Usuarios</h1>
+    <a href="{{ url_for('agregar_usuario') }}">Agregar usuario</a>
+    <table border="1" cellpadding="5" style="margin: 20px auto;">
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Mail</th>
+            <th>Acciones</th>
+        </tr>
+        {% for u in usuarios %}
+        <tr>
+            <td>{{ u.idusuario }}</td>
+            <td>{{ u.nombre }}</td>
+            <td>{{ u.mail }}</td>
+            <td>
+                <a href="{{ url_for('editar_usuario', idusuario=u.idusuario) }}">Editar</a> |
+                <a href="{{ url_for('eliminar_usuario_route', idusuario=u.idusuario) }}"
+                   onclick="return confirm('¿Eliminar usuario?');">Eliminar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{{ url_for('index') }}">Volver al inicio</a>
+</body>
+</html>

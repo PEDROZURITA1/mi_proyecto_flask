@@ -1,0 +1,50 @@
+body {
+    background-color: #e1f071;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    text-align: center; /* Centra todo el contenido */
+}
+
+h1 {
+    color: #071728;
+    margin-bottom: 20px;
+}
+
+.table {
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+th {
+    background-color: #343a40;
+    color: #fff;
+}
+
+.btn {
+    margin-right: 5px;
+}
+
+a {
+    text-decoration: none;
+}
+
+form label {
+    font-weight: bold;
+    color: #343a40;
+}
+
+form input, form button {
+    margin-bottom: 10px;
+}
+
+ul {
+    display: inline-block;
+    text-align: left;
+    margin: 0 auto 20px auto;
+}
+
+table {
+    margin-left: auto;
+    margin-right: auto;
+}

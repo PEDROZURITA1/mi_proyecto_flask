@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Inventario</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Inventario</h1>
+    <a href="{{ url_for('agregar') }}">Agregar nuevo producto</a>
+    <br><br>
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+            <th>Acciones</th>
+        </tr>
+        {% for p in productos %}
+        <tr>
+            <td>{{ p.id }}</td>
+            <td>{{ p.nombre }}</td>
+            <td>{{ p.cantidad }}</td>
+            <td>${{ "%.2f"|format(p.precio) }}</td>
+            <td>
+                <a href="{{ url_for('actualizar', id_=p.id) }}">Actualizar</a> |
+                <a href="{{ url_for('eliminar', id_=p.id) }}" onclick="return confirm('¿Seguro que deseas eliminar este producto?');">Eliminar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <a href="{{ url_for('index') }}">Volver al inicio</a>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PedroZurita</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Bienvenido al Sistema de Inventario</h1>
+    <p>Gestiona los productos de tu Almacen de forma sencilla.</p>
+    <ul>
+        <li><a href="{{ url_for('inventario') }}">Ver Inventario</a></li>
+        <li><a href="{{ url_for('usuarios') }}">Gestionar Usuarios</a></li>
+    </ul>
+    <footer style="margin-top:40px; text-align:center; color:#555;">
+        <hr>
+        <p>Elaborado por Pedro Zurita &copy; 2025</p>
+    </footer>
+</body>
+</html>

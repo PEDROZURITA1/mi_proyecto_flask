@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Agregar Usuario</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Agregar Usuario</h1>
+
+    <!-- Formulario para agregar usuario -->
+    <form method="post">
+        <label for="nombre">Nombre:</label>
+        <input type="text" name="nombre" required><br>
+
+        <label for="mail">Mail:</label>
+        <input type="email" name="mail" required><br>
+
+        <button type="submit">Agregar</button>
+    </form>
+
+    <!-- Enlace para volver a la lista de usuarios -->
+    <a href="{{ url_for('usuarios') }}">Volver a usuarios</a>
+</body>
+</html>

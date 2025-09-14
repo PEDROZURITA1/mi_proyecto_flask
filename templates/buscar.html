@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Buscar Producto</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Buscar Producto</h1>
+    <form method="post">
+        <label for="patron">Nombre o parte del nombre:</label>
+        <input type="text" name="patron" required>
+        <button type="submit">Buscar</button>
+    </form>
+    <br>
+    {% if resultados %}
+        <table border="1" cellpadding="5">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+            </tr>
+            {% for p in resultados %}
+            <tr>
+                <td>{{ p.id }}</td>
+                <td>{{ p.nombre }}</td>
+                <td>{{ p.cantidad }}</td>
+                <td>${{ "%.2f"|format(p.precio) }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+    <br>
+    <a href="{{ url_for('index') }}">Volver al inicio</a>
+</body>
+</html>
